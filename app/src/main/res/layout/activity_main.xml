@@ -14,30 +14,31 @@
         style="@style/Texttype"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="60dp"/>
+
     <Button
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:layout_marginLeft="120dp"
-        android:text="EST"
         android:id="@+id/button10"
-        android:background="@color/Lightblue"/>
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="140dp"
+        android:background="@drawable/round_button"
+        android:text="EST" />
     <Button
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:layout_marginLeft="200dp"
+        android:layout_marginLeft="220dp"
         android:text="PST"
         android:id="@+id/button11"
-        android:background="@color/Lightblue"/>
+        android:background="@drawable/not_available_round_button"/>
     <Button
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:layout_marginLeft="280dp"
+        android:layout_marginLeft="300dp"
         android:text="CST"
         android:id="@+id/button12"
-        android:background="@color/Lightblue"/>
+        android:background="@drawable/round_button"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -45,15 +46,18 @@
         android:text="Big Fm"
         style="@style/Texttype"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="130dp"/>
+        android:layout_marginTop="130dp"
+        android:id="@+id/textView4" />
+
     <Button
+        android:id="@+id/button2"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="130dp"
-        android:layout_marginLeft="280dp"
-        android:text="Play"
-        android:id="@+id/button2"
-        android:background="@color/Lightblue"/>
+        android:layout_alignStart="@+id/button12"
+        android:layout_alignTop="@+id/textView4"
+        android:background="@drawable/not_available_round_button"
+        android:textAllCaps="false"
+        android:text="Play" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -61,15 +65,18 @@
         android:text="Radio Mirchi"
         style="@style/Texttype"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="200dp"/>
+        android:layout_marginTop="200dp"
+        android:id="@+id/textView5" />
+
     <Button
+        android:id="@+id/button3"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:layout_marginLeft="280dp"
-        android:text="Play"
-        android:id="@+id/button3"
-        android:background="@color/Lightblue"/>
+        android:layout_alignStart="@+id/button2"
+        android:layout_alignTop="@+id/textView5"
+        android:background="@drawable/not_available_round_button"
+        android:textAllCaps="false"
+        android:text="Play" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -77,15 +84,18 @@
         android:text="Radio City"
         style="@style/Texttype"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="270dp"/>
+        android:layout_marginTop="270dp"
+        android:id="@+id/textView" />
+
     <Button
+        android:id="@+id/button4"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="270dp"
-        android:layout_marginLeft="280dp"
-        android:text="Play"
-        android:id="@+id/button4"
-        android:background="@color/Lightblue"/>
+        android:layout_alignStart="@+id/button3"
+        android:layout_alignTop="@+id/textView"
+        android:background="@drawable/round_button"
+        android:textAllCaps="false"
+        android:text="Play" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -93,37 +103,70 @@
         android:text="Sooriyan Fm"
         style="@style/Texttype"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="340dp"/>
+        android:layout_marginTop="340dp"
+        android:id="@+id/textView3" />
+
     <Button
+        android:id="@+id/button5"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="340dp"
-        android:layout_marginLeft="280dp"
-        android:text="Play"
-        android:id="@+id/button5"
-        android:background="@color/Lightblue"/>
+        android:layout_alignStart="@+id/button4"
+        android:layout_alignTop="@+id/textView3"
+        android:background="@drawable/round_button"
+        android:textAllCaps="false"
+        android:text="Play" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello Fm"
+        android:text="Select to close App(minutes) "
         style="@style/Texttype"
+        android:layout_marginTop="410dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="410dp"/>
+        android:id="@+id/text"/>
+
     <Button
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="410dp"
-        android:layout_marginLeft="280dp"
-        android:text="Play"
-        android:id="@+id/button6"
-        android:background="@color/Lightblue"/>
+        android:text="15"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="480dp"
+        android:id="@+id/close15"
+        android:background="@drawable/round_button"/>
+
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:text="30"
+        android:layout_marginLeft="115dp"
+        android:layout_marginTop="480dp"
+        android:id="@+id/close30"
+        android:background="@drawable/round_button"/>
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:text="45"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="480dp"
+        android:id="@+id/close45"
+        android:background="@drawable/round_button"/>
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:text="60"
+        android:layout_marginLeft="285dp"
+        android:layout_marginTop="480dp"
+        android:id="@+id/close60"
+        android:background="@drawable/round_button"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="480dp"
+        android:layout_marginTop="550dp"
+        android:textAllCaps="false"
         android:text="Mute"
-        android:id="@+id/mute"/>
+        android:id="@+id/mute"
+        android:background="@drawable/stop_round_button"/>
+
 </RelativeLayout>
