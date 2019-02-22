@@ -2,157 +2,209 @@ package com.example.santh.myradio;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button button10,button11,button12,button2,button3,button4,button5,button6,mute,previous;
-    String url = "http://17473.live.streamtheworld.com/RADIO_TAMIL_EST_128_SC"; // your URL here
+    Button[] button=new Button[9];
+    Button mute,refresh;
+    Button[] close=new Button[4];
+    TextView text;
+    CountDownTimer countDownTimer;
     MediaPlayer mediaPlayer = new MediaPlayer();
+    int current=-1;
+    String[] urls={"http://16813.live.streamtheworld.com/RADIO_TAMIL_PST_128.mp3","http://16813.live.streamtheworld.com/RADIO_TAMIL_CST_128.mp3",
+            "http://17473.live.streamtheworld.com/RADIO_TAMIL_EST_128_SC","bigfm","http://163.172.165.94:8320/;stream.mp3","http://163.172.165.94:8736/;stream.mp3",
+            "http://104.238.193.114:7077/;","http://163.172.165.94:8728/;stream.mp3","http://163.172.165.94:8720/;stream.mp3"};
 
-    public void Radio(String url){
-        try{
-            mediaPlayer.stop();
-            mediaPlayer.reset();
-            mediaPlayer.setDataSource(url);
-            mediaPlayer.prepare(); // might take long! (for buffering, etc)
-            mediaPlayer.start();
+    public void Radio(int url){
+        if(current!=url) {
+            if(current!=-1)
+                button[current].setBackground(getDrawable(R.drawable.round_button));
+            button[url].setBackground(getDrawable(R.drawable.play_round_button));
+            try {
+                Log.w("Initiating radio ",url+"");
+                mediaPlayer.stop();
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(urls[url]);
+                mediaPlayer.prepare(); // might take long! (for buffering, etc)
+                mediaPlayer.start();
+                current = url;
+            } catch (IOException e) {
+                Log.w("Encountered Exception "+url+" ",e.getCause());
+            }
         }
-        catch (IOException e){
-            e.printStackTrace();
+    }
+
+    public  void Close(int i){
+        if(countDownTimer!=null)
+            countDownTimer.cancel();
+        Calendar now=Calendar.getInstance();
+        now.add(Calendar.MINUTE,(i+1)*15);
+        text.setText("App will close at "+new SimpleDateFormat("hh:mm aa").format(now.getTime()));
+        for(int j=0;j<4;j++){
+            if(j!=i)
+                close[j].setBackground(getDrawable(R.drawable.round_button));
+            else
+                close[j].setBackground(getDrawable(R.drawable.stop_round_button));
         }
+        final int minutes_int=(i+1)*15*60*1000;
+        countDownTimer = new CountDownTimer(minutes_int,60000) {
+            @Override
+            public void onTick(long l) {
+                //Log.w("Time left to close app",(l/1000)/60+"");
+            }
+            @Override
+            public void onFinish() {
+                finishAndRemoveTask();
+                System.exit(0);
+            }
+        };
+        countDownTimer.start();
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.w("Radio","Start");
+        Log.w("Starting App ","myRadio");
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        button10=findViewById(R.id.button10);
-        button11=findViewById(R.id.button11);
-        button12=findViewById(R.id.button12);
-        button2=findViewById(R.id.button2);
-        button3=findViewById(R.id.button3);
-        button4=findViewById(R.id.button4);
-        button5=findViewById(R.id.button5);
-        button6=findViewById(R.id.button6);
+        button[0]=findViewById(R.id.button10);
+        button[1]=findViewById(R.id.button11);
+        button[2]=findViewById(R.id.button12);
+        button[3]=findViewById(R.id.button2);
+        button[4]=findViewById(R.id.button3);
+        button[5]=findViewById(R.id.button4);
+        button[6]=findViewById(R.id.button50);
+        button[7]=findViewById(R.id.button51);
+        button[8]=findViewById(R.id.button6);
         mute=findViewById(R.id.mute);
-        button10.setOnClickListener(new View.OnClickListener() {
+        refresh=findViewById(R.id.refresh);
+        close[0]=findViewById(R.id.close15);
+        close[1]=findViewById(R.id.close30);
+        close[2]=findViewById(R.id.close45);
+        close[3]=findViewById(R.id.close60);
+        text=findViewById(R.id.text);
+        button[0].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                button10.setBackgroundColor(getResources().getColor(R.color.Green));
-                if(previous!=null&&previous!=button10)
-                    previous.setBackgroundColor(getResources().getColor(R.color.Lightblue));
-                previous=button10;
-                Log.w("Listening","8K EST");
-                url="http://17473.live.streamtheworld.com/RADIO_TAMIL_EST_128_SC";
-                Radio(url);
+                //Radio(0);
             }
         });
-        button11.setOnClickListener(new View.OnClickListener() {
+        button[1].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                button11.setBackgroundColor(getResources().getColor(R.color.Green));
-                if(previous!=null&&previous!=button11)
-                    previous.setBackgroundColor(getResources().getColor(R.color.Lightblue));
-                previous=button11;
-                Log.w("Listening","8K PST");
-                url="http://16813.live.streamtheworld.com/RADIO_TAMIL_PST_128.mp3";
-                Radio(url);
+                Radio(1);
             }
         });
-        button12.setOnClickListener(new View.OnClickListener() {
+        button[2].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                button12.setBackgroundColor(getResources().getColor(R.color.Green));
-                if(previous!=null&&previous!=button12)
-                    previous.setBackgroundColor(getResources().getColor(R.color.Lightblue));
-                previous=button12;
-                Log.w("Listening","8K CST");
-                url="http://16813.live.streamtheworld.com/RADIO_TAMIL_CST_128.mp3";
-                Radio(url);
+                Radio(2);
             }
         });
-        button2.setOnClickListener(new View.OnClickListener() {
+        button[3].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                button2.setBackgroundColor(getResources().getColor(R.color.Green));
-                if(previous!=null&&previous!=button2)
-                    previous.setBackgroundColor(getResources().getColor(R.color.Lightblue));
-                previous=button2;
-                Log.w("Listening","Big Fm");
-                url="http://163.172.158.94:8062/;";
-                Radio(url);
+                //Radio(3);
             }
         });
-        button3.setOnClickListener(new View.OnClickListener() {
+        button[4].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                button3.setBackgroundColor(getResources().getColor(R.color.Green));
-                if(previous!=null&&previous!=button3)
-                    previous.setBackgroundColor(getResources().getColor(R.color.Lightblue));
-                previous=button3;
-                Log.w("Listening","Radio Mirchi");
-                url="http://163.172.158.94:8052/;stream.mp3";
-                Radio(url);
+                Radio(4);
             }
         });
-        button4.setOnClickListener(new View.OnClickListener() {
+        button[5].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                button4.setBackgroundColor(getResources().getColor(R.color.Green));
-                if(previous!=null&&previous!=button4)
-                    previous.setBackgroundColor(getResources().getColor(R.color.Lightblue));
-                previous=button4;
-                Log.w("Listening","Radio City");
-                url="http://prclive1.listenon.in:9948/;";
-                Radio(url);
+                Radio(5);
             }
         });
-        button5.setOnClickListener(new View.OnClickListener() {
+        button[6].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                button5.setBackgroundColor(getResources().getColor(R.color.Green));
-                if(previous!=null&&previous!=button5)
-                    previous.setBackgroundColor(getResources().getColor(R.color.Lightblue));
-                previous=button5;
-                Log.w("Listening","Sooriyan Fm");
-                url="http://104.238.193.114:7077/;";
-                Radio(url);
+                Radio(6);
             }
         });
-        button6.setOnClickListener(new View.OnClickListener() {
+        button[7].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                button6.setBackgroundColor(getResources().getColor(R.color.Green));
-                if(previous!=null&&previous!=button6)
-                    previous.setBackgroundColor(getResources().getColor(R.color.Lightblue));
-                previous=button6;
-                Log.w("Listening","Hello Fm");
-                url="http://163.172.158.94:8048/;/;";
-                Radio(url);
+                Radio(7);
             }
         });
-        /*mute.setOnClickListener(new View.OnClickListener() {
+        button[8].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mute.getText()=="Mute"){
-                    AudioManager audioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
-                    audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
-                    mute.setText("Unmute");
+                Radio(8);
+            }
+        });
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.w("Current Radio ",current+" ");
+                if(current!=-1) {
+                    try {
+                        Log.w("Initiating refresh for ", current + "");
+                        mediaPlayer.reset();
+                        mediaPlayer.setDataSource(urls[current]);
+                        mediaPlayer.prepare(); // might take long! (for buffering, etc)
+                        mediaPlayer.start();
+                    } catch (IOException e) {
+                        Log.w("Refresh Exception", e.getCause());
+                    }
                 }
-                else{
-                    AudioManager audioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
-                    audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0);
+            }
+        });
+        mute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mute.getText() == "Mute") {
+                    mediaPlayer.setVolume(0,0);
+                    mute.setBackground(getDrawable(R.drawable.play_round_button));
+                    mute.setText("Unmute");
+                } else {
+                    mediaPlayer.setVolume(0,1);
+                    mute.setBackground(getDrawable(R.drawable.stop_round_button));
                     mute.setText("Mute");
                 }
             }
-        });*/
+        });
+        close[0].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Close(0);
+            }
+        });
+        close[1].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Close(1);
+            }
+        });
+        close[2].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Close(2);
+            }
+        });
+        close[3].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Close(3);
+            }
+        });
     }
 }
