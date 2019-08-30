@@ -2,52 +2,25 @@ package com.example.santh.myradio;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button[] button=new Button[9];
     Button mute,refresh;
     Button[] close=new Button[4];
     TextView text;
     CountDownTimer countDownTimer;
     MediaPlayer mediaPlayer = new MediaPlayer();
-    int current=-1;
-    String[] urls={"http://16813.live.streamtheworld.com/RADIO_TAMIL_PST_128.mp3","http://16813.live.streamtheworld.com/RADIO_TAMIL_CST_128.mp3",
-            "http://17473.live.streamtheworld.com/RADIO_TAMIL_EST_128_SC","bigfm","http://163.172.165.94:8320/;stream.mp3","http://163.172.165.94:8736/;stream.mp3",
-            "http://104.238.193.114:7077/;","http://163.172.165.94:8728/;stream.mp3","http://163.172.165.94:8720/;stream.mp3"};
-
-    public void Radio(int url){
-        if(current!=url) {
-            if(current!=-1)
-                button[current].setBackground(getDrawable(R.drawable.round_button));
-            button[url].setBackground(getDrawable(R.drawable.play_round_button));
-            try {
-                Log.w("Initiating radio ",url+"");
-                mediaPlayer.stop();
-                mediaPlayer.reset();
-                mediaPlayer.setDataSource(urls[url]);
-                mediaPlayer.prepare(); // might take long! (for buffering, etc)
-                mediaPlayer.start();
-                current = url;
-            } catch (IOException e) {
-                Log.w("Encountered Exception "+url+" ",e.getCause());
-            }
-        }
-    }
+    RadioStation current = null;
 
     public  void Close(int i){
         if(countDownTimer!=null)
@@ -81,15 +54,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.w("Starting App ","myRadio");
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        button[0]=findViewById(R.id.button10);
-        button[1]=findViewById(R.id.button11);
-        button[2]=findViewById(R.id.button12);
-        button[3]=findViewById(R.id.button2);
-        button[4]=findViewById(R.id.button3);
-        button[5]=findViewById(R.id.button4);
-        button[6]=findViewById(R.id.button50);
-        button[7]=findViewById(R.id.button51);
-        button[8]=findViewById(R.id.button6);
+        Button est8k = findViewById(R.id.est8k);
+        Button bigfm = findViewById(R.id.bigfm);
+        Button mirchi = findViewById(R.id.mirchi);
+        Button radiocity = findViewById(R.id.radiocity);
+        Button suryafm = findViewById(R.id.suryanfm);
+        Button hellofm = findViewById(R.id.hellofm);
+
         mute=findViewById(R.id.mute);
         refresh=findViewById(R.id.refresh);
         close[0]=findViewById(R.id.close15);
@@ -97,75 +68,75 @@ public class MainActivity extends AppCompatActivity {
         close[2]=findViewById(R.id.close45);
         close[3]=findViewById(R.id.close60);
         text=findViewById(R.id.text);
-        button[0].setOnClickListener(new View.OnClickListener() {
+
+        final RadioStation Mirchi = new RadioStation("http://51.15.200.126:8002/1",mirchi,this);
+        final RadioStation Suryanfm = new RadioStation("http://51.15.86.61:8002/1",suryafm,this);
+        final RadioStation Radiocity = new RadioStation("http://51.15.86.61:8002/3",radiocity,this);
+        final RadioStation Hellofm = new RadioStation("http://51.15.200.126:8002/5",hellofm,this);
+        final RadioStation Bigfm = new RadioStation("http://51.15.86.61:8002/5",bigfm,this);
+        final RadioStation Est8k = new RadioStation("http://17473.live.streamtheworld.com/RADIO_TAMIL_EST_128_SC",est8k,this);
+
+        est8k.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Radio(0);
+                if(current != null)
+                    current.Stop();
+                Est8k.Play(mediaPlayer);
+                current=Est8k;
             }
         });
-        button[1].setOnClickListener(new View.OnClickListener() {
+        bigfm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Radio(1);
+                if(current != null)
+                    current.Stop();
+                Bigfm.Play(mediaPlayer);
+                current=Bigfm;
             }
         });
-        button[2].setOnClickListener(new View.OnClickListener() {
+        mirchi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Radio(2);
+                if(current != null)
+                    current.Stop();
+                Mirchi.Play(mediaPlayer);
+                current=Mirchi;
             }
         });
-        button[3].setOnClickListener(new View.OnClickListener() {
+        radiocity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Radio(3);
+                if(current != null)
+                    current.Stop();
+                Radiocity.Play(mediaPlayer);
+                current=Radiocity;
             }
         });
-        button[4].setOnClickListener(new View.OnClickListener() {
+        suryafm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Radio(4);
+                if(current != null)
+                    current.Stop();
+                Suryanfm.Play(mediaPlayer);
+                current=Suryanfm;
             }
         });
-        button[5].setOnClickListener(new View.OnClickListener() {
+        hellofm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Radio(5);
+                if(current != null)
+                    current.Stop();
+                Hellofm.Play(mediaPlayer);
+                current=Hellofm;
             }
         });
-        button[6].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Radio(6);
-            }
-        });
-        button[7].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Radio(7);
-            }
-        });
-        button[8].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Radio(8);
-            }
-        });
+
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.w("Current Radio ",current+" ");
-                if(current!=-1) {
-                    try {
-                        Log.w("Initiating refresh for ", current + "");
-                        mediaPlayer.reset();
-                        mediaPlayer.setDataSource(urls[current]);
-                        mediaPlayer.prepare(); // might take long! (for buffering, etc)
-                        mediaPlayer.start();
-                    } catch (IOException e) {
-                        Log.w("Refresh Exception", e.getCause());
-                    }
-                }
+                if(current != null)
+                    current.Play(mediaPlayer);
             }
         });
         mute.setOnClickListener(new View.OnClickListener() {
@@ -174,11 +145,11 @@ public class MainActivity extends AppCompatActivity {
                 if (mute.getText() == "Mute") {
                     mediaPlayer.setVolume(0,0);
                     mute.setBackground(getDrawable(R.drawable.play_round_button));
-                    mute.setText("Unmute");
+                    mute.setText(R.string.Unmute);
                 } else {
                     mediaPlayer.setVolume(0,1);
                     mute.setBackground(getDrawable(R.drawable.stop_round_button));
-                    mute.setText("Mute");
+                    mute.setText(R.string.Mute);
                 }
             }
         });
@@ -204,6 +175,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Close(3);
+
+                close[3].setText("");
             }
         });
     }

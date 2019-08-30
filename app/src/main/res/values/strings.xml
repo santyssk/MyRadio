@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MyRadio</string>
+    <string name="Mute">Mute</string>
+    <string name="Unmute">Unmute</string>
 </resources>
